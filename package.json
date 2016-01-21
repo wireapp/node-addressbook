@@ -1,0 +1,39 @@
+{
+  "name": "node-addressbook",
+  "version": "1.0.0",
+  "private": true,
+  "author": {
+    "name": "Wire"
+  },
+  "contributors": [
+    {
+      "name": "Chris Owen",
+      "email": "chris@wire.com",
+      "url": "http://wire.com"
+    }
+  ],
+  "description": "OSX addressbook access for node",
+  "keywords": [
+    "address",
+    "addressbook",
+    "contacts",
+    "wire",
+    "binding",
+    "c"
+  ],
+  "homepage": "http://wire.com",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "install": "node-gyp rebuild"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://git@github.com/wearezeta/node-addressbook.git"
+  },
+  "bugs": {
+    "url": "http://github.com/wearezeta/node-addressbook/issues"
+  },
+  "gypfile": true
+}

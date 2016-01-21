@@ -1,0 +1,7 @@
+*.[oa]
+.*.swp
+local.properties
+*.log
+
+/build
+.DS_STORE
