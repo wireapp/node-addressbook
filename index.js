@@ -35,9 +35,9 @@ const lib = {
         for (let i = 0; i < count; i++) {
             setTimeout(function (index) {
                 contacts.push(lib.getContact(index));
-                progress = contacts.length / count;
+                progress = Math.floor((contacts.length / count) * 100) / 100;
                 onProgress(progress);
-                if (progress === count) {
+                if (progress === 1) {
                     onFinish(contacts);
                 }
             }.bind(null, i), 100);
