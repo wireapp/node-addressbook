@@ -29,6 +29,8 @@ const lib = {
     getContacts: function (onProgress, onFinish) {
         const count = lib.getContactsCount();
         const contacts = [];
+        if (count === 0) return onFinish(contacts);
+
         let progress = 0;
         for (let i = 0; i < count; i++) {
             process.nextTick(function (index) {
