@@ -33,14 +33,14 @@ const lib = {
 
         let progress = 0;
         for (let i = 0; i < count; i++) {
-            process.nextTick(function (index) {
+            setTimeout(function (index) {
                 contacts.push(lib.getContact(index));
                 progress = contacts.length / count;
                 onProgress(progress);
                 if (progress === count) {
                     onFinish(contacts);
                 }
-            }.bind(null, i));
+            }.bind(null, i), 100);
         }
         return contacts;
     }
