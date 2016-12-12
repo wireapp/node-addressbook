@@ -40,7 +40,7 @@ const lib = {
                 if (progress === 1) {
                     onFinish(contacts);
                 }
-            }.bind(null, i), 100);
+            }.bind(null, i), 200);
         }
         return contacts;
     }
