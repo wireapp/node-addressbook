@@ -41,19 +41,6 @@ void fillPersonObject(Isolate* isolate, Local<Object> obj, Person *person)
 	setStringArray(isolate, obj, "numbers", person->numbers());
 }
 
-void fillContactArray(Isolate* isolate, Local<Object> parent, AddressBook& ab)
-{
-	Local<Array> array = Array::New(isolate);
-	for (unsigned int i = 0; i < ab.contactCount(); i++ ) {
-		Local<Object> contact = Object::New(isolate);
-		Person *p = ab.getContact(i);
-		fillPersonObject(isolate, contact, p);
-		delete p;
-		array->Set(i, contact);
-	}	
-	parent->Set(String::NewFromUtf8(isolate, "contacts"), array);
-}
-
 void GetMe(const FunctionCallbackInfo<Value>& args)
 {
 	AddressBook ab;
@@ -111,11 +98,6 @@ void CreateObject(const FunctionCallbackInfo<Value>& args)
 	Isolate* isolate = args.GetIsolate();
 
 	Local<Object> exports = Object::New(isolate);
-	Local<Object> me = Object::New(isolate);
-	fillPersonObject(isolate, me, ab.getMe());
-	
-	exports->Set(String::NewFromUtf8(isolate, "me"), me);
-	fillContactArray(isolate, exports, ab);
 
 	NODE_SET_METHOD(exports, "getMe", GetMe);
 	NODE_SET_METHOD(exports, "contactCount", ContactCount);

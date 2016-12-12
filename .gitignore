@@ -1,7 +1,8 @@
-*.[oa]
 .*.swp
 local.properties
 *.log
+.DS_STORE
 
 /build
-.DS_STORE
+/.idea/
+/node_modules
