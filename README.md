@@ -19,5 +19,20 @@ Building for electron seems to require the use of electron-rebuild:
 
 # Usage
 
-See example.js for how to use the module
+how to use the module:
+```
+const addressBook = require('node-addressbook');
 
+console.log("Number of Contacts: ", addressBook.getContactsCount());
+
+console.log("Me: ", addressBook.getMe());
+
+console.log("Contact [9]: ", addressBook.getContact(9));
+
+console.log("Start Importing Contacts");
+
+addressBook.getContacts(
+    progress => console.log("Progress: " + progress + "%"),
+    contacts => console.log("Contacts: ", contacts)
+);
+```

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const addressbook = require('./build/Release/electron-addressbook')();
+const addressbook = require('./build/Release/electron-addressbook');
 const lib = {
     getContact: function (position) {
         return addressbook.getContact(position);
@@ -24,25 +24,10 @@ const lib = {
         return addressbook.getMe();
     },
     getContactsCount: function () {
-        return addressbook.contactCount();
+        return addressbook.getContactsCount();
     },
     getContacts: function (onProgress, onFinish) {
-        const count = lib.getContactsCount();
-        const contacts = [];
-        if (count === 0) return onFinish(contacts);
-
-        let progress = 0;
-        for (let i = 0; i < count; i++) {
-            setTimeout(function (index) {
-                contacts.push(lib.getContact(index));
-                progress = Math.floor((contacts.length / count) * 100) / 100;
-                onProgress(progress);
-                if (progress === 1) {
-                    onFinish(contacts);
-                }
-            }.bind(null, i), 200);
-        }
-        return contacts;
+        return addressbook.getContacts(onProgress, onFinish)
     }
 };
 
