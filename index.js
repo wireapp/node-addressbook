@@ -15,4 +15,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-module.exports = require('./build/Release/electron-addressbook');
+const addressbook = require('./build/Release/electron-addressbook');
+const lib = {
+    getContact: function (position) {
+        return addressbook.getContact(position);
+    },
+    getMe: function () {
+        return addressbook.getMe();
+    },
+    getContactsCount: function () {
+        return addressbook.getContactsCount();
+    },
+    getContacts: function (onProgress, onFinish) {
+        return addressbook.getContacts(onProgress, onFinish)
+    }
+};
+
+module.exports = lib;

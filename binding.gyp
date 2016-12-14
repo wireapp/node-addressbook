@@ -8,6 +8,7 @@
         "wrapper.cc"
       ],
       "include_dirs": [
+        "<!(node -e \"require('nan')\")"
       ],
       "conditions": [
         ['OS=="mac"', {
