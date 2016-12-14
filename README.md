@@ -32,7 +32,7 @@ console.log("Contact [9]: ", addressBook.getContact(9));
 console.log("Start Importing Contacts");
 
 addressBook.getContacts(
-    progress => console.log("Progress: " + progress + "%"),
+    progress => console.log("Progress: " + progress + "% "),
     contacts => console.log("Contacts: ", contacts)
 );
 ```
