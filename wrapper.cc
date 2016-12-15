@@ -15,119 +15,133 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#include <node.h>
+#include <nan.h>
+#include <functional>
+#include <iostream>
 #include "AddressBook.h"
 
+using namespace Nan;
+using namespace std;
 using namespace v8;
+
 
 void setStringArray(Isolate* isolate, Local<Object> obj, const char* name, const stringvector& src)
 {
-	Local<Array> array = Array::New(isolate);
-	for (unsigned int i = 0; i < src.size(); i++ ) {
-		Local<String> result = String::NewFromUtf8(isolate, src[i].c_str());
-		array->Set(i, result);
-	}	
-	obj->Set(String::NewFromUtf8(isolate, name), array);
+    Local<Array> array = Array::New(isolate);
+    for (unsigned int i = 0; i < src.size(); i++ ) {
+        Local<String> result = String::NewFromUtf8(isolate, src[i].c_str());
+        array->Set(i, result);
+    }
+    obj->Set(String::NewFromUtf8(isolate, name), array);
 }
 
 void fillPersonObject(Isolate* isolate, Local<Object> obj, Person *person)
 {
-	obj->Set(String::NewFromUtf8(isolate, "firstName"),
-		String::NewFromUtf8(isolate, person->firstName().c_str()));
-	obj->Set(String::NewFromUtf8(isolate, "lastName"),
-		String::NewFromUtf8(isolate, person->lastName().c_str()));
+    obj->Set(String::NewFromUtf8(isolate, "firstName"),
+        String::NewFromUtf8(isolate, person->firstName().c_str()));
+    obj->Set(String::NewFromUtf8(isolate, "lastName"),
+        String::NewFromUtf8(isolate, person->lastName().c_str()));
 
-	setStringArray(isolate, obj, "emails", person->emails());
-	setStringArray(isolate, obj, "numbers", person->numbers());
+    setStringArray(isolate, obj, "emails", person->emails());
+    setStringArray(isolate, obj, "numbers", person->numbers());
 }
 
-void fillContactArray(Isolate* isolate, Local<Object> parent, AddressBook& ab)
-{
-	Local<Array> array = Array::New(isolate);
-	for (unsigned int i = 0; i < ab.contactCount(); i++ ) {
-		Local<Object> contact = Object::New(isolate);
-		Person *p = ab.getContact(i);
-		fillPersonObject(isolate, contact, p);
-		delete p;
-		array->Set(i, contact);
-	}	
-	parent->Set(String::NewFromUtf8(isolate, "contacts"), array);
+class AddressBookWorker : public AsyncProgressWorker {
+    public:
+        AddressBookWorker(Callback *callback,Callback *progress)
+        : AsyncProgressWorker(callback), progress(progress) , contacts() {}
+
+        ~AddressBookWorker() {}
+
+        void Execute (const AsyncProgressWorker::ExecutionProgress& progress) {
+            AddressBook ab;
+            unsigned total = ab.contactCount();
+            for (unsigned int i = 0; i < total; i++ ) {
+                contacts.push_back(ab.getContact(i));
+                int percent = ((double)i/(double)total)*100;
+                progress.Send(reinterpret_cast<const char*>(&percent), sizeof(int));
+            }
+        }
+
+        void HandleProgressCallback(const char *data, size_t size) {
+            Nan::HandleScope scope;
+
+            v8::Local<v8::Value> argv[] = {
+                New<v8::Integer>(*reinterpret_cast<int*>(const_cast<char*>(data)))
+            };
+            progress->Call(1, argv);
+        }
+
+        // We have the results, and we're back in the event loop.
+        void HandleOKCallback () {
+            Isolate* isolate = Isolate::GetCurrent();
+            Nan::HandleScope scope;
+
+            Local<Array> results = New<Array>(contacts.size());
+            int i = 0;
+            for_each(contacts.begin(), contacts.end(), [&](Person* person) {
+                    Local<Object> contact = Object::New(isolate);
+                    fillPersonObject(isolate, contact, person);
+                    Nan::Set(results, i,  contact);
+                    i++;
+            });
+
+            Local<Value> argv[] = {results};
+            callback->Call(1, argv);
+        }
+    private:
+      Callback *progress;
+      vector<Person*> contacts;
+};
+
+// Asynchronous access to the `getContacts()` function
+NAN_METHOD(GetContacts) {
+    Callback *progress = new Callback(info[0].As<Function>());
+    Callback *callback = new Callback(info[1].As<Function>());
+
+    AsyncQueueWorker(new AddressBookWorker(callback, progress));
 }
 
-void GetMe(const FunctionCallbackInfo<Value>& args)
-{
-	AddressBook ab;
-	Isolate* isolate = args.GetIsolate();
+NAN_METHOD(GetMe) {
+    AddressBook ab;
+    Isolate* isolate = Isolate::GetCurrent();
 
-	Local<Object> me = Object::New(isolate);
-	fillPersonObject(isolate, me, ab.getMe());
-	
-	args.GetReturnValue().Set(me);
-}
+    Local<Object> me = Object::New(isolate);
+    fillPersonObject(isolate, me, ab.getMe());
 
-void ContactCount(const FunctionCallbackInfo<Value>& args)
-{
-	AddressBook ab;
-	Isolate* isolate = args.GetIsolate();
-
-	Local<Integer> c = Integer::New(isolate, ab.contactCount());
-	
-	args.GetReturnValue().Set(c);
-}
-
-void GetContact(const FunctionCallbackInfo<Value>& args)
-{
-	AddressBook ab;
-	Isolate* isolate = args.GetIsolate();
-
-	if (args.Length() < 1) {
-		// Throw an Error that is passed back to JavaScript
-		isolate->ThrowException(Exception::TypeError(
-		String::NewFromUtf8(isolate, "Wrong number of arguments")));
-		return;
-	}
-
-	// Check the argument types
-	if (!args[0]->IsNumber()) {
-		isolate->ThrowException(Exception::TypeError(
-		String::NewFromUtf8(isolate, "Wrong argument type")));
-		return;
-	}
-
-	// Perform the operation
-	int64_t i = args[0]->IntegerValue();
-
-	Local<Object> contact = Object::New(isolate);
-	Person *p = ab.getContact(i);
-	fillPersonObject(isolate, contact, p);
-	delete p;
-
-	args.GetReturnValue().Set(contact);
-}
-
-void CreateObject(const FunctionCallbackInfo<Value>& args)
-{
-	AddressBook ab;
-	Isolate* isolate = args.GetIsolate();
-
-	Local<Object> exports = Object::New(isolate);
-	Local<Object> me = Object::New(isolate);
-	fillPersonObject(isolate, me, ab.getMe());
-	
-	exports->Set(String::NewFromUtf8(isolate, "me"), me);
-	fillContactArray(isolate, exports, ab);
-
-	NODE_SET_METHOD(exports, "getMe", GetMe);
-	NODE_SET_METHOD(exports, "contactCount", ContactCount);
-	NODE_SET_METHOD(exports, "getContact", GetContact);
-	args.GetReturnValue().Set(exports);
+    info.GetReturnValue().Set(me);
 }
 
 
-void init(Local<Object> exports, Local<Object> module)
-{
-	NODE_SET_METHOD(module, "exports", CreateObject);
+NAN_METHOD(GetContact) {
+    int index = info[0]->Uint32Value();
+
+    AddressBook ab;
+    Isolate* isolate = Isolate::GetCurrent();
+
+    Local<Object> contact = Object::New(isolate);
+    fillPersonObject(isolate, contact, ab.getContact(index));
+
+    info.GetReturnValue().Set(contact);
 }
 
-NODE_MODULE(addon, init)
+NAN_METHOD(GetContactsCount) {
+    AddressBook ab;
+    info.GetReturnValue().Set((unsigned)ab.contactCount());
+}
 
+NAN_MODULE_INIT(Init) {
+    Nan::Set(target, New<String>("getMe").ToLocalChecked(),
+        GetFunction(New<FunctionTemplate>(GetMe)).ToLocalChecked());
+
+    Nan::Set(target, New<String>("getContact").ToLocalChecked(),
+        GetFunction(New<FunctionTemplate>(GetContact)).ToLocalChecked());
+
+    Nan::Set(target, New<String>("getContactsCount").ToLocalChecked(),
+        GetFunction(New<FunctionTemplate>(GetContactsCount)).ToLocalChecked());
+
+    Nan::Set(target, New<String>("getContacts").ToLocalChecked(),
+        GetFunction(New<FunctionTemplate>(GetContacts)).ToLocalChecked());
+}
+
+NODE_MODULE(addon, Init)
