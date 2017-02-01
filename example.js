@@ -15,9 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
-const ab = require("./build/Release/electron-addressbook")();
-
 // Addressbook has a member me that represents the current user.
 // contacts member is an array of all contacts (includes the me user)
 //
@@ -27,31 +24,27 @@ const ab = require("./build/Release/electron-addressbook")();
 // emails - array of strings of email addresses
 // numbers - array of strings of phone numbers
 
+const readline = require('readline');
+const colors = require('colors');
+colors.setTheme({
+    custom: ['red', 'underline']
+});
 
-function logPerson(p, typ) {
-	console.log(typ + ": " + p.firstName + " " + p.lastName);
+const addressBook = require('./index');
 
-	for(var x = 0; x < p.emails.length; x++) {
-		console.log("  Email: " + p.emails[x]);
-	}
+console.log("Me: ".custom, addressBook.getMe());
 
-	for(var x = 0; x < p.numbers.length; x++) {
-		console.log("  Phone: " + p.numbers[x]);
-	} 
-}
+console.log("Contact [1]: ".custom, addressBook.getContact(1));
 
-logPerson(ab.me, "Me");
+console.log("Number of Contacts: ".custom, addressBook.getContactsCount());
 
-console.log("" + ab.contacts.length + " contacts");
+console.log("Start Importing Contacts".custom);
 
-for(p = 0; p < ab.contacts.length; p++) {
-	logPerson(ab.contacts[p], "Contact");
-}
-
-logPerson(ab.getMe(), "Me2");
-console.log("" + ab.contactCount() + " contacts");
-
-for(p = 0; p < ab.contactCount(); p++) {
-	logPerson(ab.getContact(p), "Contact");
-}
-
+addressBook.getContacts(
+    progress => {
+        readline.clearLine(process.stdout, 0);
+        readline.cursorTo(process.stdout, 0);
+        process.stdout.write("Progress".custom + " " + progress + "%")
+    },
+    contacts => console.log("Contacts".custom, contacts)
+);
