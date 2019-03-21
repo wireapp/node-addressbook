@@ -37,7 +37,8 @@
   "private": true,
   "repository": "git+https://git@github.com/wearezeta/node-addressbook.git",
   "scripts": {
-    "postinstall": "node-gyp rebuild"
+    "postinstall": "node-gyp rebuild",
+    "test": "exit 0"
   },
   "version": "1.2.0"
 }
