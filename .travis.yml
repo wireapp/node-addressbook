@@ -1,0 +1,13 @@
+# http://docs.travis-ci.com/user/workers/container-based-infrastructure/
+os: osx
+
+language: node_js
+
+node_js:
+  - '10'
+
+notifications:
+  email: false
+
+cache:
+  yarn: true
