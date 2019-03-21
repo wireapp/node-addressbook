@@ -1,22 +1,29 @@
 {
-  "name": "node-addressbook",
-  "version": "1.2.0",
-  "private": true,
-  "author": {
-    "name": "Wire"
-  },
+  "author": "Wire Swiss <wireapp@wire.com>",
   "contributors": [
     {
-      "name": "Chris Owen",
       "email": "chris@wire.com",
+      "name": "Chris Owen",
       "url": "http://wire.com"
     },
     {
-      "name": "Fareed Al-Namrouti",
-      "email": "digital.flowers@hotmail.com"
+      "email": "digital.flowers@hotmail.com",
+      "name": "Fareed Al-Namrouti"
     }
   ],
+  "dependencies": {
+    "nan": "2.13.1"
+  },
   "description": "OSX addressbook access for node",
+  "devDependencies": {
+    "colors": "1.3.3",
+    "readline": "1.3.0"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "gypfile": true,
+  "homepage": "https://wire.com",
   "keywords": [
     "address",
     "addressbook",
@@ -25,26 +32,12 @@
     "binding",
     "c"
   ],
-  "homepage": "http://wire.com",
-  "engines": {
-    "node": ">=0.10.0"
-  },
+  "name": "node-addressbook",
+  "os": [ "darwin" ],
+  "private": true,
+  "repository": "git+https://git@github.com/wearezeta/node-addressbook.git",
   "scripts": {
-    "install": "node-gyp rebuild"
+    "postinstall": "node-gyp rebuild"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://git@github.com/wearezeta/node-addressbook.git"
-  },
-  "bugs": {
-    "url": "http://github.com/wearezeta/node-addressbook/issues"
-  },
-  "gypfile": true,
-  "dependencies": {
-    "nan": "^2.4.0"
-  },
-  "devDependencies": {
-    "colors": "^1.1.2",
-    "readline": "^1.3.0"
-  }
+  "version": "1.2.0"
 }
