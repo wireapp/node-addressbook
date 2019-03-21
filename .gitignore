@@ -1,8 +1,9 @@
 *.[oa]
 .*.swp
-*.log.*
+*.log*
 local.properties
 .DS_STORE
 node_modules/
 build/
 .idea/
+dist/

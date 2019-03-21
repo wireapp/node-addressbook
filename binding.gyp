@@ -3,9 +3,9 @@
     {
       "target_name": "electron-addressbook",
       "sources": [
-        "AddressBook.cc",
-        "Person.cc",
-        "wrapper.cc"
+        "src/cpp/AddressBook.cc",
+        "src/cpp/Person.cc",
+        "src/cpp/wrapper.cc"
       ],
       "include_dirs": [
         "<!(node -e \"require('nan')\")"
