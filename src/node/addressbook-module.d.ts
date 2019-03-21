@@ -26,9 +26,23 @@ export interface ContactInformation {
 export type OnProgressCallback = (progress: number) => void;
 export type OnFinishCallback = (contacts: ContactInformation) => void;
 
-export default interface AddressBook {
+export interface AddressBook {
+  /**
+   * Get Contact Information from the AddressBook using it's index
+   *
+   * @param index contact index in the Addressbook
+   * @returns Contact Information
+   */
   getContact(index?: number): ContactInformation;
+
+  /**
+   * Get Contact Information for the logged-in user
+   *
+   * @returns Contact Information
+   */
   getMe(): ContactInformation;
+
+  /** Returns the number of contacts in the AddressBook. */
   getContactsCount(): number;
   getContacts(onProgress?: OnProgressCallback, onFinish?: OnFinishCallback): void;
 }

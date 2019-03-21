@@ -28,29 +28,20 @@
  */
 
 import * as readline from 'readline';
-import * as colors from 'colors';
-import addressBook from './';
+import * as addressBook from './';
 
-colors.setTheme({
-  custom: ['red', 'underline'],
-});
-
-declare global {
-  interface String {
-    custom: string;
-  }
-}
-
-console.log('Me:'.custom, addressBook.getMe());
-console.log('Contact [1]:'.custom, addressBook.getContact(1));
-console.log('Number of contacts:'.custom, addressBook.getContactsCount());
-console.log('Start importing contacts'.custom);
+console.log('Me:', addressBook.getMe());
+console.log('Contact [0]:', addressBook.getContact(0));
+console.log('Number of contacts:', addressBook.getContactsCount());
+console.log('Start importing contacts');
 
 addressBook.getContacts(
   progress => {
     readline.clearLine(process.stdout, 0);
     readline.cursorTo(process.stdout, 0);
-    process.stdout.write(`${'Progress'.custom} ${progress}%`);
+    process.stdout.write(`Progress: ${progress}%`);
   },
-  contacts => console.log('Contacts'.custom, contacts)
+  contacts => console.log('Contacts', contacts)
 );
+
+addressBook.getContacts().then(contacts => console.log('Contacts', contacts));

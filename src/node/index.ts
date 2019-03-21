@@ -17,6 +17,4 @@
  */
 
 export * from './addressbook-module';
-
-import AddressBook from './addressbook';
-export default AddressBook;
+export * from './addressbook';

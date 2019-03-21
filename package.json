@@ -17,7 +17,6 @@
   "description": "OSX addressbook access for node",
   "devDependencies": {
     "@types/node": "11.11.4",
-    "colors": "1.3.3",
     "linebyline": "1.3.0",
     "prettier": "1.16.4",
     "rimraf": "2.6.3",

@@ -16,46 +16,38 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import AddressBook, {ContactInformation, OnFinishCallback, OnProgressCallback} from './addressbook-module';
+import {AddressBook, ContactInformation, OnFinishCallback, OnProgressCallback} from './addressbook-module';
 
 const addressbook: AddressBook = require('../build/Release/electron-addressbook');
 
-const lib = {
-  /**
-   * Get Contact Information from the AddressBook using it's index
-   *
-   * @param index contact index in the Addressbook
-   * @returns Contact Information
-   */
-  getContact(index?: number): ContactInformation {
-    return addressbook.getContact(index);
-  },
+/**
+ * Get all contacts information from the AddressBook
+ *
+ * @param onProgress Callback provides overall process percent as an integer value between 1 to 100
+ * @param onFinish Callback provides an array contains all of the Addressbook contacts information
+ */
+function getContacts(): Promise<ContactInformation>;
+function getContacts(onProgress: OnProgressCallback, onFinish: OnFinishCallback): void;
+function getContacts(onProgress?: OnProgressCallback, onFinish?: OnFinishCallback): void | Promise<ContactInformation> {
+  if (!onProgress && !onFinish) {
+    return new Promise((resolve, reject) => {
+      try {
+        addressbook.getContacts(
+          () => {},
+          data => {
+            resolve(data);
+          }
+        );
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+  return addressbook.getContacts(onProgress, onFinish);
+}
 
-  /**
-   * Get Contact Information for the logged-in user
-   *
-   * @returns Contact Information
-   */
-  getMe(): ContactInformation {
-    return addressbook.getMe();
-  },
-  /**
-   * Returns the number of contacts in the AddressBook.
-   *
-   * @returns number of contacts in the AddressBook.
-   */
-  getContactsCount(): number {
-    return addressbook.getContactsCount();
-  },
-  /**
-   * Get all contacts information from the AddressBook
-   *
-   * @param onProgress Callback provides overall process percent as an integer value between 1 to 100
-   * @param onFinish Callback provides an array contains all of the Addressbook contacts information
-   */
-  getContacts(onProgress?: OnProgressCallback, onFinish?: OnFinishCallback): void {
-    return addressbook.getContacts(onProgress, onFinish);
-  },
-};
+export const getContact = addressbook.getContact;
+export const getMe = addressbook.getMe;
+export const getContactsCount = addressbook.getContactsCount;
 
-export default lib;
+export {getContacts};
