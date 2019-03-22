@@ -54,5 +54,5 @@
     "postinstall": "node-gyp rebuild",
     "test": "exit 0"
   },
-  "version": "3.0.1"
+  "version": "3.0.2"
 }
