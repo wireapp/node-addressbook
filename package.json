@@ -50,6 +50,7 @@
     "build:ts": "tsc",
     "clear": "rimraf build dist",
     "dist": "yarn clear && yarn build",
+    "postinstall": "node-gyp rebuild",
     "test": "exit 0"
   },
   "version": "1.2.0"
