@@ -11,3 +11,7 @@ notifications:
 
 cache:
   yarn: true
+
+script:
+  - yarn dist
+  - yarn test
