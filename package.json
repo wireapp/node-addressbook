@@ -27,6 +27,7 @@
   "files": [
     "dist"
   ],
+  "license": "GPL-3.0",
   "gypfile": true,
   "keywords": [
     "address",
@@ -51,5 +52,5 @@
     "postinstall": "node-gyp rebuild",
     "test": "exit 0"
   },
-  "version": "2.0.0"
+  "version": "3.0.0"
 }
