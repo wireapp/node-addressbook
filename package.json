@@ -28,7 +28,6 @@
     "dist"
   ],
   "gypfile": true,
-  "homepage": "https://wire.com",
   "keywords": [
     "address",
     "addressbook",
@@ -38,12 +37,11 @@
     "c"
   ],
   "main": "dist/index.js",
-  "name": "node-addressbook",
+  "name": "@wireapp/node-addressbook",
   "os": [
     "darwin"
   ],
-  "private": true,
-  "repository": "git+https://git@github.com/wearezeta/node-addressbook.git",
+  "repository": "https://github.com/wireapp/node-addressbook.git",
   "scripts": {
     "build": "yarn build:ts && yarn build:gyp",
     "build:gyp": "node-gyp rebuild",
@@ -53,5 +51,5 @@
     "postinstall": "node-gyp rebuild",
     "test": "exit 0"
   },
-  "version": "1.2.0"
+  "version": "2.0.0"
 }
