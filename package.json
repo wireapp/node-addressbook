@@ -25,6 +25,8 @@
     "node": ">= 10"
   },
   "files": [
+    "binding.gyp",
+    "src/cpp",
     "dist"
   ],
   "license": "GPL-3.0",
