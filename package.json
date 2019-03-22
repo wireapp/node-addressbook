@@ -22,7 +22,7 @@
     "typescript": "3.3.4000"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">= 10"
   },
   "files": [
     "dist"

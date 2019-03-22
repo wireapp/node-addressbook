@@ -19,7 +19,7 @@
 const {
   getContact,
   getMe,
-  getContacts: nativeGetContacts,
+  getContacts,
   getContactsCount,
 }: AddressBook = require('../build/Release/electron-addressbook');
 
@@ -61,13 +61,16 @@ interface AddressBook {
   getContacts(onProgress?: OnProgressCallback, onFinish?: OnFinishCallback): void;
 }
 
-function getContacts(): Promise<ContactInformation>;
-function getContacts(onProgress: OnProgressCallback, onFinish: OnFinishCallback): void;
-function getContacts(onProgress?: OnProgressCallback, onFinish?: OnFinishCallback): Promise<ContactInformation> | void {
+function getContactsWrapper(): Promise<ContactInformation>;
+function getContactsWrapper(onProgress: OnProgressCallback, onFinish: OnFinishCallback): void;
+function getContactsWrapper(
+  onProgress?: OnProgressCallback,
+  onFinish?: OnFinishCallback
+): Promise<ContactInformation> | void {
   if (!onProgress && !onFinish) {
     return new Promise((resolve, reject) => {
       try {
-        nativeGetContacts(
+        getContacts(
           () => {},
           data => {
             resolve(data);
@@ -78,7 +81,15 @@ function getContacts(onProgress?: OnProgressCallback, onFinish?: OnFinishCallbac
       }
     });
   }
-  return nativeGetContacts(onProgress, onFinish);
+  return getContacts(onProgress, onFinish);
 }
 
-export {AddressBook, getContact, getContacts, getMe, getContactsCount, OnFinishCallback, OnProgressCallback};
+export {
+  AddressBook,
+  getContact,
+  getContactsWrapper as getContacts,
+  getMe,
+  getContactsCount,
+  OnFinishCallback,
+  OnProgressCallback,
+};
