@@ -18,7 +18,7 @@
 
 /**
  * Addressbook has a member `me` that represents the current user.
- * contacts member is an array of all contacts (includes the me user)
+ * contacts member is an array of all contacts (includes the `me` user)
  *
  * `me` and contact objects have the following members:
  * `emails` - array of strings of email addresses

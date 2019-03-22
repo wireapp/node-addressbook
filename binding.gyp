@@ -13,7 +13,7 @@
       "conditions": [
         ['OS=="mac"', {
           "libraries": [
-	    '$(SDKROOT)/System/Library/Frameworks/AddressBook.framework'
+            '$(SDKROOT)/System/Library/Frameworks/AddressBook.framework'
           ]
         }]
       ]
