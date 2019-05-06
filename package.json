@@ -12,7 +12,7 @@
     }
   ],
   "dependencies": {
-    "nan": "2.13.1"
+    "nan": "2.13.2"
   },
   "description": "OSX addressbook access for node",
   "devDependencies": {
