@@ -58,7 +58,7 @@
       "tslint --project tsconfig.json --fix",
       "git add"
     ],
-    "*.{json,md,css}": [
+    "*.{json,md,css,yml}": [
       "prettier --write",
       "git add"
     ]
@@ -84,7 +84,7 @@
     "lint:other": "yarn prettier --list-different",
     "lint:ts": "tslint --project tsconfig.json",
     "postinstall": "node-gyp rebuild",
-    "prettier": "prettier \"**/*.{json,md,css}\"",
+    "prettier": "prettier \"**/*.{json,md,css,yml}\"",
     "test": "yarn lint"
   },
   "version": "3.0.2"
