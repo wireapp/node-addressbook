@@ -19,6 +19,8 @@
     "@types/node": "11.13.10",
     "@wireapp/prettier-config": "0.2.0",
     "@wireapp/tslint-config": "1.0.2",
+    "husky": "2.2.0",
+    "lint-staged": "8.1.6",
     "prettier": "1.17.0",
     "rimraf": "2.6.3",
     "tslint": "5.16.0",
@@ -37,6 +39,11 @@
     "dist"
   ],
   "gypfile": true,
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "keywords": [
     "address",
     "addressbook",
@@ -47,7 +54,7 @@
   ],
   "license": "GPL-3.0",
   "lint-staged": {
-    "**/*.ts": [
+    "*.ts": [
       "tslint --project tsconfig.json --fix",
       "git add"
     ],
@@ -59,7 +66,8 @@
   "main": "dist/index.js",
   "name": "@wireapp/node-addressbook",
   "os": [
-    "darwin"
+    "darwin",
+    "linux"
   ],
   "prettier": "@wireapp/prettier-config",
   "repository": "https://github.com/wireapp/node-addressbook.git",
