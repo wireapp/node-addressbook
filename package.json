@@ -17,7 +17,7 @@
   "description": "OSX addressbook access for node",
   "devDependencies": {
     "@types/node": "11.11.4",
-    "prettier": "1.16.4",
+    "prettier": "1.17.0",
     "rimraf": "2.6.3",
     "typescript": "3.3.4000"
   },
