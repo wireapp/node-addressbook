@@ -1,9 +1,5 @@
-/config
-/wrap
-/.github/issue_template.md
-coverage
-.nyc_output
-instrumented-code
+.travis.yml
+dist
+build
+node_modules
 package.json
-package-lock.json
-electron/locale
