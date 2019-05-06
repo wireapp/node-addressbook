@@ -44,4 +44,7 @@ addressBook.getContacts(
   contacts => console.log('Contacts', contacts)
 );
 
-addressBook.getContacts().then(contacts => console.log('Contacts', contacts));
+addressBook
+  .getContacts()
+  .then(contacts => console.log('Contacts', contacts))
+  .catch(error => console.error(error));
