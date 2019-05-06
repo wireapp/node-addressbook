@@ -19,7 +19,7 @@
     "@types/node": "11.11.4",
     "prettier": "1.16.4",
     "rimraf": "2.6.3",
-    "typescript": "3.3.4000"
+    "typescript": "3.4.5"
   },
   "engines": {
     "node": ">= 10"
