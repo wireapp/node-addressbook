@@ -48,7 +48,7 @@
   "license": "GPL-3.0",
   "lint-staged": {
     "**/*.ts": [
-      "tslint --project tsconfig.mocha.json --fix",
+      "tslint --project tsconfig.json --fix",
       "git add"
     ],
     "*.{json,md,css}": [
