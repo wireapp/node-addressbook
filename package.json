@@ -12,14 +12,21 @@
     }
   ],
   "dependencies": {
-    "nan": "2.13.1"
+    "nan": "2.13.2"
   },
   "description": "OSX addressbook access for node",
   "devDependencies": {
-    "@types/node": "11.11.4",
-    "prettier": "1.16.4",
+    "@types/node": "11.13.10",
+    "@wireapp/prettier-config": "0.2.0",
+    "@wireapp/tslint-config": "1.0.2",
+    "prettier": "1.17.0",
     "rimraf": "2.6.3",
-    "typescript": "3.3.4000"
+    "tslint": "5.16.0",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-plugin-prettier": "2.0.1",
+    "tslint-react": "4.0.0",
+    "tslint-react-hooks": "2.1.0",
+    "typescript": "3.4.5"
   },
   "engines": {
     "node": ">= 10"
@@ -29,7 +36,6 @@
     "src/cpp",
     "dist"
   ],
-  "license": "GPL-3.0",
   "gypfile": true,
   "keywords": [
     "address",
@@ -39,11 +45,23 @@
     "binding",
     "c"
   ],
+  "license": "GPL-3.0",
+  "lint-staged": {
+    "**/*.ts": [
+      "tslint --project tsconfig.mocha.json --fix",
+      "git add"
+    ],
+    "*.{json,md,css}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
   "main": "dist/index.js",
   "name": "@wireapp/node-addressbook",
   "os": [
     "darwin"
   ],
+  "prettier": "@wireapp/prettier-config",
   "repository": "https://github.com/wireapp/node-addressbook.git",
   "scripts": {
     "build": "yarn build:ts && yarn build:gyp",
@@ -51,8 +69,16 @@
     "build:ts": "tsc",
     "clear": "rimraf build dist",
     "dist": "yarn clear && yarn build",
+    "fix": "yarn fix:other && yarn fix:ts",
+    "fix:other": "yarn prettier --write",
+    "fix:ts": "yarn lint:ts --fix",
+    "lint": "yarn lint:other && yarn lint:ts",
+    "lint:js": "eslint --ignore-path .gitignore --ext .js,.jsx .",
+    "lint:other": "yarn prettier --list-different",
+    "lint:ts": "tslint --project tsconfig.json",
     "postinstall": "node-gyp rebuild",
-    "test": "exit 0"
+    "prettier": "prettier \"**/*.{json,md,css}\"",
+    "test": "yarn lint"
   },
   "version": "3.0.2"
 }
