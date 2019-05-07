@@ -34,8 +34,13 @@ public:
   Person(ABPersonRef p);
 #endif
 
-  const std::string &firstName() const { return m_firstName; }
-  const std::string &lastName() const { return m_lastName; }
+  const std::string &firstName() const {
+    return m_firstName;
+  }
+
+  const std::string &lastName() const {
+    return m_lastName;
+  }
 
   const stringvector &numbers() const;
   const stringvector &emails() const;
@@ -43,10 +48,8 @@ public:
 private:
 #ifdef __APPLE__
   static std::string CFString2String(CFStringRef str);
-  static std::string getStringProperty(ABPersonRef person,
-                                       CFStringRef propertyName);
-  static void fillPropertyVector(ABPersonRef person, CFStringRef propertyName,
-                                 stringvector &vec);
+  static std::string getStringProperty(ABPersonRef person, CFStringRef propertyName);
+  static void fillPropertyVector(ABPersonRef person, CFStringRef propertyName, stringvector &vec);
 #endif
   std::string m_firstName;
   std::string m_lastName;
