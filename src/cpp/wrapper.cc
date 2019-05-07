@@ -61,7 +61,9 @@ public:
   void HandleProgressCallback(const char *data, size_t size) {
     Nan::HandleScope scope;
 
-    v8::Local<v8::Value> argv[] = {New<v8::Integer>(*reinterpret_cast<int *>(const_cast<char *>(data)))};
+    v8::Local<v8::Value> argv[] = {
+      New<v8::Integer>(*reinterpret_cast<int *>(const_cast<char *>(data)))
+    };
     progress->Call(1, argv);
   }
 
@@ -111,7 +113,7 @@ NAN_METHOD(GetMe) {
 NAN_METHOD(GetContact) {
 #if defined(V8_MAJOR_VERSION) && V8_MAJOR_VERSION >= 7
   unsigned int index = info[0]->Uint32Value(Nan::GetCurrentContext()).ToChecked();
-#elif
+#else
   unsigned int index = info[0]->Uint32Value();
 #endif
 
