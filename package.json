@@ -71,7 +71,7 @@
     "lint:ts": "tslint --project tsconfig.json",
     "postinstall": "node-gyp rebuild",
     "prettier": "prettier \"**/*.{json,md,yml}\"",
-    "test": "yarn lint"
+    "test": "yarn lint && yarn dist && node dist/example.js"
   },
   "version": "3.0.2"
 }
