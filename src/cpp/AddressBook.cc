@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "Person.h"
 
 #ifdef __APPLE__
@@ -24,57 +23,51 @@
 
 #include "AddressBook.h"
 
-AddressBook::AddressBook()
-{
-}
+AddressBook::AddressBook() {}
 
-Person* AddressBook::getMe() const
-{
+Person *AddressBook::getMe() const {
 #ifdef __APPLE__
-	ABAddressBookRef ab = ABGetSharedAddressBook();
-	ABPersonRef me = ABGetMe(ab);
-	Person *p = new Person(me);
+  ABAddressBookRef ab = ABGetSharedAddressBook();
+  ABPersonRef me = ABGetMe(ab);
+  Person *p = new Person(me);
 #else
-	Person *p = new Person();
+  Person *p = new Person();
 #endif
-	return p;
+  return p;
 }
 
-unsigned long AddressBook::contactCount() const
-{
+unsigned long AddressBook::contactCount() const {
 #ifdef __APPLE__
-	CFIndex count = 0;
-	ABAddressBookRef ab = ABGetSharedAddressBook();
-	CFArrayRef peeps = ABCopyArrayOfAllPeople(ab); 
-	if (peeps) {
-		count = CFArrayGetCount(peeps);
-		CFRelease(peeps);
-	}
-	return count;
+  CFIndex count = 0;
+  ABAddressBookRef ab = ABGetSharedAddressBook();
+  CFArrayRef peeps = ABCopyArrayOfAllPeople(ab);
+  if (peeps) {
+    count = CFArrayGetCount(peeps);
+    CFRelease(peeps);
+  }
+  return count;
 #else
-	return 0;
+  return 0;
 #endif
 }
 
-Person* AddressBook::getContact(unsigned long pos) const
-{
+Person *AddressBook::getContact(unsigned long pos) const {
 #ifdef __APPLE__
-	Person *p = NULL;
-	ABAddressBookRef ab = ABGetSharedAddressBook();
-	CFArrayRef peeps = ABCopyArrayOfAllPeople(ab); 
-	if (peeps) {
-		CFIndex count = CFArrayGetCount(peeps);
-		if ((CFIndex)pos < count) {
-			ABPersonRef pe = (ABPersonRef)CFArrayGetValueAtIndex(peeps, pos);
-			if (pe) {
-				p = new Person(pe);
-			}
-		}
-		CFRelease(peeps);
-	}
+  Person *p = NULL;
+  ABAddressBookRef ab = ABGetSharedAddressBook();
+  CFArrayRef peeps = ABCopyArrayOfAllPeople(ab);
+  if (peeps) {
+    CFIndex count = CFArrayGetCount(peeps);
+    if ((CFIndex)pos < count) {
+      ABPersonRef pe = (ABPersonRef)CFArrayGetValueAtIndex(peeps, pos);
+      if (pe) {
+        p = new Person(pe);
+      }
+    }
+    CFRelease(peeps);
+  }
 #else
-	Person *p = new Person();
+  Person *p = new Person();
 #endif
-	return p;
+  return p;
 }
-

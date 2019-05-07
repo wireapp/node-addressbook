@@ -48,8 +48,8 @@ void fillPersonObject(Isolate* isolate, Local<Object> obj, Person *person)
 
 class AddressBookWorker : public AsyncProgressWorker {
     public:
-        AddressBookWorker(Callback *callback,Callback *progress)
-        : AsyncProgressWorker(callback), progress(progress) , contacts() {}
+        AddressBookWorker(Callback *callback, Callback *progress)
+        : AsyncProgressWorker(callback), progress(progress), contacts() {}
 
         ~AddressBookWorker() {}
 
@@ -114,7 +114,11 @@ NAN_METHOD(GetMe) {
 
 
 NAN_METHOD(GetContact) {
-    int index = info[0]->Uint32Value();
+    #if defined(V8_MAJOR_VERSION) && V8_MAJOR_VERSION >= 7
+        int index = info[0]->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+    #else
+        int index = info[0]->Uint32Value();
+    #endif
 
     AddressBook ab;
     Isolate* isolate = Isolate::GetCurrent();
