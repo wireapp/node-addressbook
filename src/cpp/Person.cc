@@ -22,8 +22,7 @@
 std::string Person::CFString2String(CFStringRef str) {
   std::string rv;
   CFIndex length = CFStringGetLength(str);
-  CFIndex maxSize =
-      CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8) + 1;
+  CFIndex maxSize = CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8) + 1;
   char *buffer = (char *)malloc(maxSize);
   if (CFStringGetCString(str, buffer, maxSize, kCFStringEncodingUTF8)) {
     rv = buffer;
@@ -33,10 +32,8 @@ std::string Person::CFString2String(CFStringRef str) {
   return rv;
 }
 
-std::string Person::getStringProperty(ABPersonRef person,
-                                      CFStringRef propertyName) {
-  CFStringRef propertyVal =
-      (CFStringRef)ABRecordCopyValue(person, propertyName);
+std::string Person::getStringProperty(ABPersonRef person, CFStringRef propertyName) {
+  CFStringRef propertyVal = (CFStringRef)ABRecordCopyValue(person, propertyName);
   std::string rv;
 
   if (propertyVal && CFGetTypeID(propertyVal) == CFStringGetTypeID()) {
@@ -47,10 +44,8 @@ std::string Person::getStringProperty(ABPersonRef person,
   return rv;
 }
 
-void Person::fillPropertyVector(ABPersonRef person, CFStringRef propertyName,
-                                stringvector &vec) {
-  ABMultiValueRef propertyArray =
-      (ABMultiValueRef)ABRecordCopyValue(person, propertyName);
+void Person::fillPropertyVector(ABPersonRef person, CFStringRef propertyName, stringvector &vec) {
+  ABMultiValueRef propertyArray = (ABMultiValueRef)ABRecordCopyValue(person, propertyName);
 
   if (propertyArray) {
     CFIndex count = ABMultiValueCount(propertyArray);
