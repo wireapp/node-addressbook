@@ -71,6 +71,10 @@ Person::Person(ABPersonRef p) {
 }
 #endif
 
-const stringvector &Person::numbers() const { return m_numbers; }
+const stringvector &Person::numbers() const {
+  return m_numbers;
+}
 
-const stringvector &Person::emails() const { return m_emails; }
+const stringvector &Person::emails() const {
+  return m_emails;
+}
