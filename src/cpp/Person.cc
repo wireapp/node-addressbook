@@ -19,70 +19,63 @@
 #include "AddressBook.h"
 
 #ifdef __APPLE__
-std::string Person::CFString2String(CFStringRef str)
-{
-        std::string rv;
-        CFIndex length = CFStringGetLength(str);
-        CFIndex maxSize = CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8) + 1;
-        char *buffer = (char *)malloc(maxSize);
-        if (CFStringGetCString(str, buffer, maxSize, kCFStringEncodingUTF8)) {
-                rv = buffer;
-		free(buffer);
-        }   
+std::string Person::CFString2String(CFStringRef str) {
+  std::string rv;
+  CFIndex length = CFStringGetLength(str);
+  CFIndex maxSize =
+      CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8) + 1;
+  char *buffer = (char *)malloc(maxSize);
+  if (CFStringGetCString(str, buffer, maxSize, kCFStringEncodingUTF8)) {
+    rv = buffer;
+    free(buffer);
+  }
 
-        return rv; 
+  return rv;
 }
 
-std::string Person::getStringProperty(ABPersonRef person, CFStringRef propertyName)
-{
-	CFStringRef propertyVal = (CFStringRef)ABRecordCopyValue(person, propertyName);
-	std::string rv;
+std::string Person::getStringProperty(ABPersonRef person,
+                                      CFStringRef propertyName) {
+  CFStringRef propertyVal =
+      (CFStringRef)ABRecordCopyValue(person, propertyName);
+  std::string rv;
 
-	if (propertyVal && CFGetTypeID(propertyVal) == CFStringGetTypeID()) {
-		rv = CFString2String(propertyVal);
-		CFRelease(propertyVal);
-	}   
+  if (propertyVal && CFGetTypeID(propertyVal) == CFStringGetTypeID()) {
+    rv = CFString2String(propertyVal);
+    CFRelease(propertyVal);
+  }
 
-	return rv;
+  return rv;
 }
 
-void Person::fillPropertyVector(ABPersonRef person, CFStringRef propertyName, stringvector& vec)
-{
-        ABMultiValueRef propertyArray = (ABMultiValueRef)ABRecordCopyValue(person, propertyName);
+void Person::fillPropertyVector(ABPersonRef person, CFStringRef propertyName,
+                                stringvector &vec) {
+  ABMultiValueRef propertyArray =
+      (ABMultiValueRef)ABRecordCopyValue(person, propertyName);
 
-        if (propertyArray) {
-                CFIndex count = ABMultiValueCount(propertyArray);
-                for(CFIndex p = 0; p < count; p++) {
-                        CFStringRef propertyVal = (CFStringRef)ABMultiValueCopyValueAtIndex(propertyArray, p);
-			vec.push_back(CFString2String(propertyVal));
-                        CFRelease(propertyVal);
-                }   
-        }
+  if (propertyArray) {
+    CFIndex count = ABMultiValueCount(propertyArray);
+    for (CFIndex p = 0; p < count; p++) {
+      CFStringRef propertyVal =
+          (CFStringRef)ABMultiValueCopyValueAtIndex(propertyArray, p);
+      vec.push_back(CFString2String(propertyVal));
+      CFRelease(propertyVal);
+    }
+  }
 }
 #endif
 
-Person::Person()
-{
-}
+Person::Person() {}
 
 #ifdef __APPLE__
-Person::Person(ABPersonRef p)
-{
-	m_firstName = getStringProperty(p, kABFirstNameProperty);
-	m_lastName = getStringProperty(p, kABLastNameProperty);
+Person::Person(ABPersonRef p) {
+  m_firstName = getStringProperty(p, kABFirstNameProperty);
+  m_lastName = getStringProperty(p, kABLastNameProperty);
 
-	fillPropertyVector(p, kABEmailProperty, m_emails);
-	fillPropertyVector(p, kABPhoneProperty, m_numbers);
+  fillPropertyVector(p, kABEmailProperty, m_emails);
+  fillPropertyVector(p, kABPhoneProperty, m_numbers);
 }
 #endif
 
-const stringvector& Person::numbers() const
-{
-	return m_numbers;
-}
+const stringvector &Person::numbers() const { return m_numbers; }
 
-const stringvector& Person::emails() const
-{
-	return m_emails;
-}
-
+const stringvector &Person::emails() const { return m_emails; }
