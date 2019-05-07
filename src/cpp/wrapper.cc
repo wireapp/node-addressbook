@@ -114,7 +114,7 @@ NAN_METHOD(GetMe) {
 
 
 NAN_METHOD(GetContact) {
-    #if V8_MAJOR_VERSION >= 7
+    #if defined(V8_MAJOR_VERSION) && V8_MAJOR_VERSION >= 7
         int index = info[0]->Uint32Value(Nan::GetCurrentContext()).ToChecked();
     #else
         int index = info[0]->Uint32Value();
