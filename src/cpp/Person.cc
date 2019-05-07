@@ -14,6 +14,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
 
 #include "Person.h"
 #include "AddressBook.h"
@@ -50,8 +51,7 @@ void Person::fillPropertyVector(ABPersonRef person, CFStringRef propertyName, st
   if (propertyArray) {
     CFIndex count = ABMultiValueCount(propertyArray);
     for (CFIndex p = 0; p < count; p++) {
-      CFStringRef propertyVal =
-          (CFStringRef)ABMultiValueCopyValueAtIndex(propertyArray, p);
+      CFStringRef propertyVal = (CFStringRef)ABMultiValueCopyValueAtIndex(propertyArray, p);
       vec.push_back(CFString2String(propertyVal));
       CFRelease(propertyVal);
     }

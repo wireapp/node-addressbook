@@ -14,6 +14,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
 
 #include "AddressBook.h"
 #include <functional>
@@ -109,18 +110,17 @@ NAN_METHOD(GetMe) {
 
 NAN_METHOD(GetContact) {
 #if defined(V8_MAJOR_VERSION) && V8_MAJOR_VERSION >= 7
-  int index = info[0]->Uint32Value(Nan::GetCurrentContext()).ToChecked();
-#else
-  int index = info[0]->Uint32Value();
+  unsigned int index = info[0]->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+#elif
+  unsigned int index = info[0]->Uint32Value();
 #endif
 
   AddressBook ab;
   Isolate *isolate = Isolate::GetCurrent();
-  Person *person = ab.getContact(index)
+  Person *person = ab.getContact(index);
 
-  if (!person) {
-    printf "Could not get contact"
-    return;
+  if (person == NULL) {
+    person = new Person();
   }
 
   Local<Object> contact = Object::New(isolate);
@@ -137,7 +137,7 @@ NAN_METHOD(GetContactsCount) {
 NAN_MODULE_INIT(Init) {
   Nan::Set(target, New<String>("getMe").ToLocalChecked(), GetFunction(New<FunctionTemplate>(GetMe)).ToLocalChecked());
   Nan::Set(target, New<String>("getContact").ToLocalChecked(), GetFunction(New<FunctionTemplate>(GetContact)).ToLocalChecked());
-  Nan::Set(target, New<String>("getContactsCount").ToLocalChecked(),GetFunction(New<FunctionTemplate>(GetContactsCount)).ToLocalChecked());
+  Nan::Set(target, New<String>("getContactsCount").ToLocalChecked(), GetFunction(New<FunctionTemplate>(GetContactsCount)).ToLocalChecked());
   Nan::Set(target, New<String>("getContacts").ToLocalChecked(), GetFunction(New<FunctionTemplate>(GetContacts)).ToLocalChecked());
 }
 
