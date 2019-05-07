@@ -70,7 +70,7 @@
     "lint:other": "yarn prettier --list-different",
     "lint:ts": "tslint --project tsconfig.json",
     "prettier": "prettier \"**/*.{json,md,yml}\"",
-    "test": "yarn lint && yarn dist && node dist/example.js"
+    "test": "yarn lint && yarn dist"
   },
   "version": "3.1.0"
 }
