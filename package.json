@@ -1,16 +1,5 @@
 {
   "author": "Wire Swiss <wireapp@wire.com>",
-  "contributors": [
-    {
-      "email": "chris@wire.com",
-      "name": "Chris Owen",
-      "url": "http://wire.com"
-    },
-    {
-      "email": "digital.flowers@hotmail.com",
-      "name": "Fareed Al-Namrouti"
-    }
-  ],
   "dependencies": {
     "nan": "2.13.2"
   },
@@ -48,9 +37,7 @@
     "address",
     "addressbook",
     "contacts",
-    "wire",
-    "binding",
-    "c"
+    "binding"
   ],
   "license": "GPL-3.0",
   "lint-staged": {

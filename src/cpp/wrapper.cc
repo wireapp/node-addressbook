@@ -114,7 +114,7 @@ NAN_METHOD(GetMe) {
 
 
 NAN_METHOD(GetContact) {
-    int index = info[0]->Uint32Value();
+    int index = info[0]->Uint32Value(Nan::GetCurrentContext()).ToChecked();
 
     AddressBook ab;
     Isolate* isolate = Isolate::GetCurrent();
