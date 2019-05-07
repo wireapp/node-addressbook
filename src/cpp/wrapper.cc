@@ -48,8 +48,8 @@ void fillPersonObject(Isolate* isolate, Local<Object> obj, Person *person)
 
 class AddressBookWorker : public AsyncProgressWorker {
     public:
-        AddressBookWorker(Callback *callback,Callback *progress)
-        : AsyncProgressWorker(callback), progress(progress) , contacts() {}
+        AddressBookWorker(Callback *callback, Callback *progress)
+        : AsyncProgressWorker(callback), progress(progress), contacts() {}
 
         ~AddressBookWorker() {}
 
