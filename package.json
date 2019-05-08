@@ -5,7 +5,7 @@
   },
   "description": "OSX addressbook access for node",
   "devDependencies": {
-    "@types/node": "11.13.10",
+    "@types/node": "~12",
     "@wireapp/prettier-config": "0.2.0",
     "@wireapp/tslint-config": "1.0.2",
     "husky": "2.2.0",
