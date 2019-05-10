@@ -16,10 +16,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "AddressBook.h"
+#include <nan.h>
 #include <functional>
 #include <iostream>
-#include <nan.h>
+#include "AddressBook.h"
 
 using namespace Nan;
 using namespace std;
@@ -72,7 +72,6 @@ class AddressBookWorker : public AsyncProgressWorker {
     Nan::HandleScope scope;
 
     Local<Array> results = New<Array>(contacts.size());
-
     int i = 0;
 
     for_each(contacts.begin(), contacts.end(), [&](Person* person) {
