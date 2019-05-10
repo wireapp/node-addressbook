@@ -26,13 +26,13 @@
 
 AddressBook::AddressBook() {}
 
-Person *AddressBook::getMe() const {
+Person* AddressBook::getMe() const {
 #ifdef __APPLE__
   ABAddressBookRef ab = ABGetSharedAddressBook();
   ABPersonRef me = ABGetMe(ab);
-  Person *p = new Person(me);
+  Person* p = new Person(me);
 #else
-  Person *p = new Person();
+  Person* p = new Person();
 #endif
   return p;
 }
@@ -52,9 +52,9 @@ unsigned long AddressBook::contactCount() const {
 #endif
 }
 
-Person *AddressBook::getContact(unsigned long pos) const {
+Person* AddressBook::getContact(unsigned long pos) const {
 #ifdef __APPLE__
-  Person *p = NULL;
+  Person* p = NULL;
   ABAddressBookRef ab = ABGetSharedAddressBook();
   CFArrayRef peeps = ABCopyArrayOfAllPeople(ab);
   if (peeps) {
@@ -68,7 +68,7 @@ Person *AddressBook::getContact(unsigned long pos) const {
     CFRelease(peeps);
   }
 #else
-  Person *p = new Person();
+  Person* p = new Person();
 #endif
   return p;
 }

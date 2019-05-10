@@ -16,16 +16,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "AddressBook.h"
+#include <nan.h>
 #include <functional>
 #include <iostream>
-#include <nan.h>
+#include "AddressBook.h"
 
 using namespace Nan;
 using namespace std;
 using namespace v8;
 
-void setStringArray(Isolate *isolate, Local<Object> obj, const char *name, const stringvector &src) {
+void setStringArray(Isolate* isolate, Local<Object> obj, const char* name, const stringvector& src) {
   Local<Array> array = Array::New(isolate);
   for (unsigned int i = 0; i < src.size(); i++) {
     Local<String> result = String::NewFromUtf8(isolate, src[i].c_str());
@@ -34,7 +34,7 @@ void setStringArray(Isolate *isolate, Local<Object> obj, const char *name, const
   obj->Set(String::NewFromUtf8(isolate, name), array);
 }
 
-void fillPersonObject(Isolate *isolate, Local<Object> obj, Person *person) {
+void fillPersonObject(Isolate* isolate, Local<Object> obj, Person* person) {
   obj->Set(String::NewFromUtf8(isolate, "firstName"), String::NewFromUtf8(isolate, person->firstName().c_str()));
   obj->Set(String::NewFromUtf8(isolate, "lastName"), String::NewFromUtf8(isolate, person->lastName().c_str()));
 
@@ -42,40 +42,39 @@ void fillPersonObject(Isolate *isolate, Local<Object> obj, Person *person) {
   setStringArray(isolate, obj, "numbers", person->numbers());
 }
 
-class AddressBookWorker: public AsyncProgressWorker {
-public:
-  AddressBookWorker(Callback *callback, Callback *progress): AsyncProgressWorker(callback), progress(progress), contacts() {}
+class AddressBookWorker : public AsyncProgressWorker {
+ public:
+  AddressBookWorker(Callback* callback, Callback* progress)
+      : AsyncProgressWorker(callback), progress(progress), contacts() {}
 
   ~AddressBookWorker() {}
 
-  void Execute(const AsyncProgressWorker::ExecutionProgress &progress) {
+  void Execute(const AsyncProgressWorker::ExecutionProgress& progress) {
     AddressBook ab;
     unsigned total = ab.contactCount();
     for (unsigned int i = 0; i < total; i++) {
       contacts.push_back(ab.getContact(i));
-      int percent = ((double)i/(double)total)*100;
-      progress.Send(reinterpret_cast<const char *>(&percent), sizeof(int));
+      int percent = ((double)i / (double)total) * 100;
+      progress.Send(reinterpret_cast<const char*>(&percent), sizeof(int));
     }
   }
 
-  void HandleProgressCallback(const char *data, size_t size) {
+  void HandleProgressCallback(const char* data, size_t size) {
     Nan::HandleScope scope;
 
-    v8::Local<v8::Value> argv[] = {
-      New<v8::Integer>(*reinterpret_cast<int *>(const_cast<char *>(data)))
-    };
+    v8::Local<v8::Value> argv[] = {New<v8::Integer>(*reinterpret_cast<int*>(const_cast<char*>(data)))};
     progress->Call(1, argv);
   }
 
   // We have the results, and we're back in the event loop.
   void HandleOKCallback() {
-    Isolate *isolate = Isolate::GetCurrent();
+    Isolate* isolate = Isolate::GetCurrent();
     Nan::HandleScope scope;
 
     Local<Array> results = New<Array>(contacts.size());
     int i = 0;
 
-    for_each(contacts.begin(), contacts.end(), [&](Person *person) {
+    for_each(contacts.begin(), contacts.end(), [&](Person* person) {
       Local<Object> contact = Object::New(isolate);
       fillPersonObject(isolate, contact, person);
       Nan::Set(results, i, contact);
@@ -86,22 +85,22 @@ public:
     callback->Call(1, argv);
   }
 
-private:
-  Callback *progress;
-  vector<Person *> contacts;
+ private:
+  Callback* progress;
+  vector<Person*> contacts;
 };
 
 // Asynchronous access to the `getContacts()` function
 NAN_METHOD(GetContacts) {
-  Callback *progress = new Callback(info[0].As<Function>());
-  Callback *callback = new Callback(info[1].As<Function>());
+  Callback* progress = new Callback(info[0].As<Function>());
+  Callback* callback = new Callback(info[1].As<Function>());
 
   AsyncQueueWorker(new AddressBookWorker(callback, progress));
 }
 
 NAN_METHOD(GetMe) {
   AddressBook ab;
-  Isolate *isolate = Isolate::GetCurrent();
+  Isolate* isolate = Isolate::GetCurrent();
 
   Local<Object> me = Object::New(isolate);
   fillPersonObject(isolate, me, ab.getMe());
@@ -117,7 +116,7 @@ NAN_METHOD(GetContact) {
 #endif
 
   AddressBook ab;
-  Isolate *isolate = Isolate::GetCurrent();
+  Isolate* isolate = Isolate::GetCurrent();
 
   Local<Object> contact = Object::New(isolate);
   fillPersonObject(isolate, contact, ab.getContact(index));
@@ -132,9 +131,12 @@ NAN_METHOD(GetContactsCount) {
 
 NAN_MODULE_INIT(Init) {
   Nan::Set(target, New<String>("getMe").ToLocalChecked(), GetFunction(New<FunctionTemplate>(GetMe)).ToLocalChecked());
-  Nan::Set(target, New<String>("getContact").ToLocalChecked(), GetFunction(New<FunctionTemplate>(GetContact)).ToLocalChecked());
-  Nan::Set(target, New<String>("getContactsCount").ToLocalChecked(), GetFunction(New<FunctionTemplate>(GetContactsCount)).ToLocalChecked());
-  Nan::Set(target, New<String>("getContacts").ToLocalChecked(), GetFunction(New<FunctionTemplate>(GetContacts)).ToLocalChecked());
+  Nan::Set(target, New<String>("getContact").ToLocalChecked(),
+           GetFunction(New<FunctionTemplate>(GetContact)).ToLocalChecked());
+  Nan::Set(target, New<String>("getContactsCount").ToLocalChecked(),
+           GetFunction(New<FunctionTemplate>(GetContactsCount)).ToLocalChecked());
+  Nan::Set(target, New<String>("getContacts").ToLocalChecked(),
+           GetFunction(New<FunctionTemplate>(GetContacts)).ToLocalChecked());
 }
 
 NODE_MODULE(addon, Init)
