@@ -14,6 +14,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
 
 #ifndef PERSON_H
 #define PERSON_H
@@ -26,32 +27,34 @@
 
 typedef std::vector<std::string> stringvector;
 
-class Person
-{
+class Person {
 public:
-    Person();
+  Person();
 #ifdef __APPLE__
-    Person(ABPersonRef p);
+  Person(ABPersonRef p);
 #endif
 
-    const std::string& firstName() const { return m_firstName; }
-    const std::string& lastName() const { return m_lastName; }
+  const std::string &firstName() const {
+    return m_firstName;
+  }
 
+  const std::string &lastName() const {
+    return m_lastName;
+  }
 
-    const stringvector& numbers() const;
-    const stringvector& emails() const;
+  const stringvector &numbers() const;
+  const stringvector &emails() const;
 
 private:
 #ifdef __APPLE__
-    static std::string CFString2String(CFStringRef str);
-    static std::string getStringProperty(ABPersonRef person, CFStringRef propertyName);
-    static void fillPropertyVector(ABPersonRef person, CFStringRef propertyName, stringvector& vec);
+  static std::string CFString2String(CFStringRef str);
+  static std::string getStringProperty(ABPersonRef person, CFStringRef propertyName);
+  static void fillPropertyVector(ABPersonRef person, CFStringRef propertyName, stringvector &vec);
 #endif
-    std::string m_firstName;
-    std::string m_lastName;
-    stringvector m_numbers;
-    stringvector m_emails;
+  std::string m_firstName;
+  std::string m_lastName;
+  stringvector m_numbers;
+  stringvector m_emails;
 };
 
 #endif // PERSON_H
-

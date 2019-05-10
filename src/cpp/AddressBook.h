@@ -14,23 +14,20 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-
+//
 
 #ifndef ADDRESSBOOK_H
 #define ADDRESSBOOK_H
 
 #include "Person.h"
 
-class AddressBook
-{
+class AddressBook {
 public:
-    Person* getMe() const;
-    unsigned long contactCount() const;
-    Person* getContact(unsigned long pos) const;
+  Person *getMe() const;
+  unsigned long contactCount() const;
+  Person *getContact(unsigned long pos) const;
 
-    AddressBook();
-
+  AddressBook();
 };
 
 #endif // ADDRESSBOOK_H
-
