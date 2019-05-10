@@ -32,7 +32,7 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@types/node@~12":
+"@types/node@*", "@types/node@~12":
   version "12.0.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.0.tgz#d11813b9c0ff8aaca29f04cbc12817f4c7d656e5"
   integrity sha512-Jrb/x3HT4PTJp6a4avhmJCDEVrPdqLfl3e8GGMbpkGGdwAV5UGlIs4vVEfsHHfylZVOKZWpOqmqFH8CbfOZ6kg==
@@ -41,6 +41,13 @@
   version "2.4.0"
   resolved "https://registry.npmjs.org/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==
+
+"@types/progress@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@types/progress/-/progress-2.0.3.tgz#7ccbd9c6d4d601319126c469e73b5bb90dfc8ccc"
+  integrity sha512-bPOsfCZ4tsTlKiBjBhKnM8jpY5nmIll166IPD58D92hR7G7kZDfx5iB9wGF4NfZrdKolebjeAr3GouYkSGoJ/A==
+  dependencies:
+    "@types/node" "*"
 
 "@wireapp/prettier-config@0.2.0":
   version "0.2.0"
@@ -1399,6 +1406,11 @@ prettier@1.17.0:
   version "1.17.0"
   resolved "https://registry.npmjs.org/prettier/-/prettier-1.17.0.tgz#53b303676eed22cc14a9f0cec09b477b3026c008"
   integrity sha512-sXe5lSt2WQlCbydGETgfm1YBShgOX4HxQkFPvbxkcwgDvGDeqVau8h+12+lmSVlP3rHPz0oavfddSZg/q+Szjw==
+
+progress@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
+  integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
 property-expr@^1.5.0:
   version "1.5.1"

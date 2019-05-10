@@ -27,24 +27,40 @@
  * `numbers` - array of strings of phone numbers
  */
 
-import * as readline from 'readline';
+import * as progress from 'progress';
 import * as addressBook from './';
 
-console.log('Me:', addressBook.getMe());
-console.log('Contact [0]:', addressBook.getContact(0));
-console.log('Number of contacts:', addressBook.getContactsCount());
-console.log('Start importing contacts');
+const me = addressBook.getMe();
+const contact0 = addressBook.getContact(0);
+const contactsCount = addressBook.getContactsCount();
 
+const progressBar = new progress('Loading: [:bar] :percent :elapseds', {
+  complete: '=',
+  incomplete: ' ',
+  total: 100,
+  width: 40,
+});
+
+console.log('Me:', me);
+console.log('Contact [0]:', contact0);
+console.log('Number of contacts:', contactsCount);
+
+let lastProgress = 0;
+
+progressBar.tick();
 addressBook.getContacts(
   progress => {
-    readline.clearLine(process.stdout, 0);
-    readline.cursorTo(process.stdout, 0);
-    process.stdout.write(`Progress: ${progress}%`);
+    if (progress > lastProgress) {
+      progressBar.tick();
+      lastProgress = progress;
+    }
   },
-  contacts => console.log('Contacts', contacts)
+  contacts => {
+    console.log('Contacts with callback:', contacts);
+  }
 );
 
 addressBook
   .getContacts()
-  .then(contacts => console.log('Contacts', contacts))
+  .then(contacts => console.log('Contacts asynchronously:', contacts))
   .catch(error => console.error(error));
