@@ -8,6 +8,7 @@
     "@types/node": "~12",
     "@wireapp/prettier-config": "0.2.0",
     "@wireapp/tslint-config": "1.0.2",
+    "clang-format": "1.2.4",
     "husky": "2.2.0",
     "lint-staged": "8.1.6",
     "prettier": "1.17.0",
@@ -45,6 +46,10 @@
       "tslint --project tsconfig.json --fix",
       "git add"
     ],
+    "*.{h,cc}": [
+      "clang-format -i",
+      "git add"
+    ],
     "*.{json,md,yml}": [
       "prettier --write",
       "git add"
@@ -53,7 +58,8 @@
   "main": "dist/index.js",
   "name": "@wireapp/node-addressbook",
   "os": [
-    "darwin"
+    "darwin",
+    "linux"
   ],
   "prettier": "@wireapp/prettier-config",
   "repository": "https://github.com/wireapp/node-addressbook.git",
@@ -63,10 +69,12 @@
     "build:ts": "tsc",
     "clear": "rimraf build dist",
     "dist": "yarn clear && yarn build",
-    "fix": "yarn fix:other && yarn fix:ts",
+    "fix": "yarn fix:other && yarn fix:cpp && yarn fix:ts",
+    "fix:cpp": "clang-format -i --glob=\"src/cpp/*.{h,cc}\"",
     "fix:other": "yarn prettier --write",
     "fix:ts": "yarn lint:ts --fix",
-    "lint": "yarn lint:other && yarn lint:ts",
+    "lint": "yarn lint:other && yarn lint:cpp && yarn lint:ts",
+    "lint:cpp": "check-clang-format",
     "lint:other": "yarn prettier --list-different",
     "lint:ts": "tslint --project tsconfig.json",
     "prettier": "prettier \"**/*.{json,md,yml}\"",

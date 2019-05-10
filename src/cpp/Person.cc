@@ -14,6 +14,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
 
 #include "Person.h"
 #include "AddressBook.h"
@@ -23,7 +24,7 @@ std::string Person::CFString2String(CFStringRef str) {
   std::string rv;
   CFIndex length = CFStringGetLength(str);
   CFIndex maxSize = CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8) + 1;
-  char *buffer = (char *)malloc(maxSize);
+  char* buffer = (char*)malloc(maxSize);
   if (CFStringGetCString(str, buffer, maxSize, kCFStringEncodingUTF8)) {
     rv = buffer;
     free(buffer);
@@ -44,14 +45,13 @@ std::string Person::getStringProperty(ABPersonRef person, CFStringRef propertyNa
   return rv;
 }
 
-void Person::fillPropertyVector(ABPersonRef person, CFStringRef propertyName, stringvector &vec) {
+void Person::fillPropertyVector(ABPersonRef person, CFStringRef propertyName, stringvector& vec) {
   ABMultiValueRef propertyArray = (ABMultiValueRef)ABRecordCopyValue(person, propertyName);
 
   if (propertyArray) {
     CFIndex count = ABMultiValueCount(propertyArray);
     for (CFIndex p = 0; p < count; p++) {
-      CFStringRef propertyVal =
-          (CFStringRef)ABMultiValueCopyValueAtIndex(propertyArray, p);
+      CFStringRef propertyVal = (CFStringRef)ABMultiValueCopyValueAtIndex(propertyArray, p);
       vec.push_back(CFString2String(propertyVal));
       CFRelease(propertyVal);
     }
@@ -71,10 +71,10 @@ Person::Person(ABPersonRef p) {
 }
 #endif
 
-const stringvector &Person::numbers() const {
+const stringvector& Person::numbers() const {
   return m_numbers;
 }
 
-const stringvector &Person::emails() const {
+const stringvector& Person::emails() const {
   return m_emails;
 }
