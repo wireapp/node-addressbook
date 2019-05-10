@@ -70,7 +70,7 @@
     "clear": "rimraf build dist",
     "dist": "yarn clear && yarn build",
     "fix": "yarn fix:other && yarn fix:cpp && yarn fix:ts",
-    "fix:cpp": "npx clang-format -i --glob=\"src/cpp/*.{h,cc}\"",
+    "fix:cpp": "clang-format -i --glob=\"src/cpp/*.{h,cc}\"",
     "fix:other": "yarn prettier --write",
     "fix:ts": "yarn lint:ts --fix",
     "lint": "yarn lint:other && yarn lint:cpp && yarn lint:ts",
