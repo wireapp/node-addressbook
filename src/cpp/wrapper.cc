@@ -119,12 +119,11 @@ NAN_METHOD(GetContact) {
   Isolate* isolate = Isolate::GetCurrent();
   Person* person = ab.getContact(index);
 
-  if (person == NULL) {
-    person = new Person();
-  }
-
   Local<Object> contact = Object::New(isolate);
-  fillPersonObject(isolate, contact, person);
+
+  if (person != NULL) {
+    fillPersonObject(isolate, contact, person);
+  }
 
   info.GetReturnValue().Set(contact);
 }
