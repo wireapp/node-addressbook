@@ -54,7 +54,7 @@ class AddressBookWorker : public AsyncProgressWorker {
     unsigned total = ab.contactCount();
     for (unsigned int i = 0; i < total; i++) {
       contacts.push_back(ab.getContact(i));
-      int percent = ((double)i / (double)total) * 100;
+      int percent = i * 100 / total;
       progress.Send(reinterpret_cast<const char*>(&percent), sizeof(int));
     }
   }
@@ -110,16 +110,20 @@ NAN_METHOD(GetMe) {
 
 NAN_METHOD(GetContact) {
 #if defined(V8_MAJOR_VERSION) && V8_MAJOR_VERSION >= 7
-  int index = info[0]->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+  unsigned int index = info[0]->Uint32Value(Nan::GetCurrentContext()).ToChecked();
 #else
-  int index = info[0]->Uint32Value();
+  unsigned int index = info[0]->Uint32Value();
 #endif
 
   AddressBook ab;
   Isolate* isolate = Isolate::GetCurrent();
+  Person* person = ab.getContact(index);
 
   Local<Object> contact = Object::New(isolate);
-  fillPersonObject(isolate, contact, ab.getContact(index));
+
+  if (person != NULL) {
+    fillPersonObject(isolate, contact, person);
+  }
 
   info.GetReturnValue().Set(contact);
 }
