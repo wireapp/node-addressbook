@@ -58,8 +58,7 @@
   "main": "dist/index.js",
   "name": "@wireapp/node-addressbook",
   "os": [
-    "darwin",
-    "linux"
+    "darwin"
   ],
   "prettier": "@wireapp/prettier-config",
   "repository": "https://github.com/wireapp/node-addressbook.git",
