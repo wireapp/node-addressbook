@@ -28,28 +28,24 @@
 typedef std::vector<std::string> stringvector;
 
 class Person {
-public:
+ public:
   Person();
 #ifdef __APPLE__
   Person(ABPersonRef p);
 #endif
 
-  const std::string &firstName() const {
-    return m_firstName;
-  }
+  const std::string& firstName() const { return m_firstName; }
 
-  const std::string &lastName() const {
-    return m_lastName;
-  }
+  const std::string& lastName() const { return m_lastName; }
 
-  const stringvector &numbers() const;
-  const stringvector &emails() const;
+  const stringvector& numbers() const;
+  const stringvector& emails() const;
 
-private:
+ private:
 #ifdef __APPLE__
   static std::string CFString2String(CFStringRef str);
   static std::string getStringProperty(ABPersonRef person, CFStringRef propertyName);
-  static void fillPropertyVector(ABPersonRef person, CFStringRef propertyName, stringvector &vec);
+  static void fillPropertyVector(ABPersonRef person, CFStringRef propertyName, stringvector& vec);
 #endif
   std::string m_firstName;
   std::string m_lastName;
@@ -57,4 +53,4 @@ private:
   stringvector m_emails;
 };
 
-#endif // PERSON_H
+#endif  // PERSON_H

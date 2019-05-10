@@ -12,6 +12,11 @@ notifications:
 cache:
   yarn: true
 
+before_script:
+  - git config clangFormat.binary node_modules/.bin/clang-format
+  - git config clangFormat.style file
+
 script:
+  - yarn lint
   - yarn dist
   - yarn test

@@ -22,12 +22,12 @@
 #include "Person.h"
 
 class AddressBook {
-public:
-  Person *getMe() const;
+ public:
+  Person* getMe() const;
   unsigned long contactCount() const;
-  Person *getContact(unsigned long pos) const;
+  Person* getContact(unsigned long pos) const;
 
   AddressBook();
 };
 
-#endif // ADDRESSBOOK_H
+#endif  // ADDRESSBOOK_H
