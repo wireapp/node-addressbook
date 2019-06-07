@@ -12,7 +12,7 @@
     "clang-format": "1.2.4",
     "husky": "2.4.0",
     "lint-staged": "8.2.0",
-    "prettier": "1.17.1",
+    "prettier": "1.18.0",
     "progress": "2.0.3",
     "rimraf": "2.6.3",
     "tslint": "5.17.0",
