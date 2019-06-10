@@ -24,6 +24,7 @@
  * `emails` - array of strings of email addresses
  * `firstName` - string
  * `lastName` - string
+ * `uid` - string
  * `numbers` - array of strings of phone numbers
  */
 

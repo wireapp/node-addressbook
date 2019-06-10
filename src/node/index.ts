@@ -26,6 +26,7 @@ const {
 export interface ContactInformation {
   emails: string[];
   firstName: string;
+  uid: string;
   lastName: string;
   numbers: string[];
 }
