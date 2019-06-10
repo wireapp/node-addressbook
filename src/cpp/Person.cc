@@ -65,6 +65,7 @@ Person::Person() {}
 Person::Person(ABPersonRef p) {
   m_firstName = getStringProperty(p, kABFirstNameProperty);
   m_lastName = getStringProperty(p, kABLastNameProperty);
+  m_uid = getStringProperty(p, kABUIDProperty);
 
   fillPropertyVector(p, kABEmailProperty, m_emails);
   fillPropertyVector(p, kABPhoneProperty, m_numbers);

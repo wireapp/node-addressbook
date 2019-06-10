@@ -38,6 +38,8 @@ class Person {
 
   const std::string& lastName() const { return m_lastName; }
 
+  const std::string& uid() const { return m_uid; }
+
   const stringvector& numbers() const;
   const stringvector& emails() const;
 
@@ -49,6 +51,7 @@ class Person {
 #endif
   std::string m_firstName;
   std::string m_lastName;
+  std::string m_uid;
   stringvector m_numbers;
   stringvector m_emails;
 };
