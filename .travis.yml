@@ -1,0 +1,22 @@
+# http://docs.travis-ci.com/user/workers/container-based-infrastructure/
+os: osx
+
+language: node_js
+
+node_js:
+  - '12'
+
+notifications:
+  email: false
+
+cache:
+  yarn: true
+
+before_script:
+  - git config clangFormat.binary node_modules/.bin/clang-format
+  - git config clangFormat.style file
+
+script:
+  - yarn lint
+  - yarn dist
+  - yarn test

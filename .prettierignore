@@ -1,0 +1,5 @@
+.travis.yml
+dist
+build
+node_modules
+package.json

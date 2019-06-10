@@ -1,50 +1,85 @@
 {
-  "name": "node-addressbook",
-  "version": "1.2.0",
-  "private": true,
-  "author": {
-    "name": "Wire"
+  "author": "Wire Swiss <wireapp@wire.com>",
+  "dependencies": {
+    "nan": "2.14.0"
   },
-  "contributors": [
-    {
-      "name": "Chris Owen",
-      "email": "chris@wire.com",
-      "url": "http://wire.com"
-    },
-    {
-      "name": "Fareed Al-Namrouti",
-      "email": "digital.flowers@hotmail.com"
-    }
-  ],
   "description": "OSX addressbook access for node",
+  "devDependencies": {
+    "@types/node": "~12",
+    "@types/progress": "2.0.3",
+    "@wireapp/prettier-config": "0.2.0",
+    "@wireapp/tslint-config": "1.1.0",
+    "clang-format": "1.2.4",
+    "husky": "2.4.0",
+    "lint-staged": "8.2.0",
+    "prettier": "1.18.0",
+    "progress": "2.0.3",
+    "rimraf": "2.6.3",
+    "tslint": "5.17.0",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-plugin-prettier": "2.0.1",
+    "tslint-react": "4.0.0",
+    "tslint-react-hooks": "2.1.0",
+    "typescript": "3.5.1"
+  },
+  "engines": {
+    "node": ">= 10"
+  },
+  "files": [
+    "binding.gyp",
+    "src/cpp",
+    "dist"
+  ],
+  "gypfile": true,
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "keywords": [
     "address",
     "addressbook",
     "contacts",
-    "wire",
-    "binding",
-    "c"
+    "binding"
   ],
-  "homepage": "http://wire.com",
-  "engines": {
-    "node": ">=0.10.0"
+  "license": "GPL-3.0",
+  "lint-staged": {
+    "*.ts": [
+      "tslint --project tsconfig.json --fix",
+      "git add"
+    ],
+    "*.{h,cc}": [
+      "clang-format -i",
+      "git add"
+    ],
+    "*.{json,md,yml}": [
+      "prettier --write",
+      "git add"
+    ]
   },
+  "main": "dist/index.js",
+  "name": "@wireapp/node-addressbook",
+  "os": [
+    "darwin"
+  ],
+  "prettier": "@wireapp/prettier-config",
+  "repository": "https://github.com/wireapp/node-addressbook.git",
   "scripts": {
-    "install": "node-gyp rebuild"
+    "build": "yarn build:ts && yarn build:gyp",
+    "build:gyp": "node-gyp rebuild",
+    "build:ts": "tsc",
+    "clear": "rimraf build dist",
+    "dist": "yarn clear && yarn build",
+    "fix": "yarn fix:other && yarn fix:cpp && yarn fix:ts",
+    "fix:cpp": "clang-format -i --glob=\"src/cpp/*.{h,cc}\"",
+    "fix:other": "yarn prettier --write",
+    "fix:ts": "yarn lint:ts --fix",
+    "lint": "yarn lint:other && yarn lint:cpp && yarn lint:ts",
+    "lint:cpp": "check-clang-format",
+    "lint:other": "yarn prettier --list-different",
+    "lint:ts": "tslint --project tsconfig.json",
+    "prettier": "prettier \"**/*.{json,md,yml}\"",
+    "test": "yarn lint && yarn dist"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://git@github.com/wearezeta/node-addressbook.git"
-  },
-  "bugs": {
-    "url": "http://github.com/wearezeta/node-addressbook/issues"
-  },
-  "gypfile": true,
-  "dependencies": {
-    "nan": "^2.4.0"
-  },
-  "devDependencies": {
-    "colors": "^1.1.2",
-    "readline": "^1.3.0"
-  }
+  "version": "3.2.0"
 }
