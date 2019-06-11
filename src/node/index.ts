@@ -62,12 +62,12 @@ interface AddressBook {
   getContacts(onProgress?: OnProgressCallback, onFinish?: OnFinishCallback): void;
 }
 
-function getContactsWrapper(): Promise<ContactInformation>;
+function getContactsWrapper(): Promise<ContactInformation[]>;
 function getContactsWrapper(onProgress: OnProgressCallback, onFinish: OnFinishCallback): void;
 function getContactsWrapper(
   onProgress?: OnProgressCallback,
   onFinish?: OnFinishCallback
-): Promise<ContactInformation> | void {
+): Promise<ContactInformation[]> | void {
   if (!onProgress && !onFinish) {
     return new Promise((resolve, reject) => {
       try {
