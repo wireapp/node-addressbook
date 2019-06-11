@@ -26,9 +26,9 @@ const {
 export interface ContactInformation {
   emails: string[];
   firstName: string;
-  uid: string;
   lastName: string;
   numbers: string[];
+  uid: string;
 }
 
 type OnProgressCallback = (progress: number) => void;
