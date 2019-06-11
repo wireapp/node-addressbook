@@ -32,7 +32,7 @@ export interface ContactInformation {
 }
 
 type OnProgressCallback = (progress: number) => void;
-type OnFinishCallback = (contacts: ContactInformation) => void;
+type OnFinishCallback = (contacts: ContactInformation[]) => void;
 
 interface AddressBook {
   /**
