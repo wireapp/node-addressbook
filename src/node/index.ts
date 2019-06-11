@@ -31,10 +31,10 @@ export interface ContactInformation {
   uid: string;
 }
 
-type OnProgressCallback = (progress: number) => void;
-type OnFinishCallback = (contacts: ContactInformation[]) => void;
+export type OnProgressCallback = (progress: number) => void;
+export type OnFinishCallback = (contacts: ContactInformation[]) => void;
 
-interface AddressBook {
+export interface AddressBook {
   /**
    * Get Contact Information from the AddressBook using it's index
    *
@@ -85,12 +85,4 @@ function getContactsWrapper(
   return getContacts(onProgress, onFinish);
 }
 
-export {
-  AddressBook,
-  getContact,
-  getContactsWrapper as getContacts,
-  getMe,
-  getContactsCount,
-  OnFinishCallback,
-  OnProgressCallback,
-};
+export {getContact, getContactsWrapper as getContacts, getMe, getContactsCount};
