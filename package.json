@@ -81,5 +81,5 @@
     "prettier": "prettier \"**/*.{json,md,yml}\"",
     "test": "yarn lint && yarn dist"
   },
-  "version": "3.3.0"
+  "version": "3.3.1"
 }
