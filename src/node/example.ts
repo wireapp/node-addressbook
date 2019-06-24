@@ -58,7 +58,7 @@ addressBook.getContacts(
   },
   contacts => {
     console.log('Contacts with callback:', contacts);
-  }
+  },
 );
 
 addressBook

@@ -66,7 +66,7 @@ function getContactsWrapper(): Promise<ContactInformation[]>;
 function getContactsWrapper(onProgress: OnProgressCallback, onFinish: OnFinishCallback): void;
 function getContactsWrapper(
   onProgress?: OnProgressCallback,
-  onFinish?: OnFinishCallback
+  onFinish?: OnFinishCallback,
 ): Promise<ContactInformation[]> | void {
   if (!onProgress && !onFinish) {
     return new Promise((resolve, reject) => {
@@ -75,7 +75,7 @@ function getContactsWrapper(
           () => {},
           data => {
             resolve(data);
-          }
+          },
         );
       } catch (error) {
         reject(error);
