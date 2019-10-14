@@ -10,7 +10,7 @@
     "@wireapp/prettier-config": "0.3.0",
     "@wireapp/tslint-config": "1.4.1",
     "clang-format": "1.2.4",
-    "husky": "3.0.8",
+    "husky": "3.0.9",
     "lint-staged": "9.4.2",
     "prettier": "1.18.2",
     "progress": "2.0.3",
