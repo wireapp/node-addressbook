@@ -1,7 +1,7 @@
 {
   "author": "Wire Swiss <wireapp@wire.com>",
   "dependencies": {
-    "nan": "2.14.0"
+    "nan": "2.14.1"
   },
   "description": "OSX addressbook access for node",
   "devDependencies": {
