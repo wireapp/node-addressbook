@@ -11,7 +11,7 @@
     "@wireapp/tslint-config": "1.4.1",
     "clang-format": "1.4.0",
     "husky": "4.2.5",
-    "lint-staged": "10.1.7",
+    "lint-staged": "10.2.0",
     "prettier": "2.0.5",
     "progress": "2.0.3",
     "rimraf": "3.0.2",
